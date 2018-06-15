@@ -35,21 +35,21 @@ var devConf = {
                         scss: [
                             'vue-style-loader',
                             'css-loader',
-                            {
-                                loader: 'postcss-loader',
-                                options: {
-                                    config: {
-                                        path: 'tasks/postcss.config.js'
-                                    }
-                                }
-                            },
+                            // {
+                            //     loader: 'postcss-loader',
+                            //     options: {
+                            //         config: {
+                            //             path: 'tasks/postcss.config.js'
+                            //         }
+                            //     }
+                            // },
                             'sass-loader'
                         ]
                     }
                 }
             }]
         }, {
-            test: /\.(png|jpg|gif)$/,
+            test: /\.(gif|jpg|png|woff|svg|eot|ttf)$/,
             use: [{
                 loader: 'url-loader',
                 options: {
@@ -59,6 +59,27 @@ var devConf = {
                     outputPath: 'image/'
                 }
             }]
+        },{
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        }, {
+            test: /\.scss$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                // {
+                //     loader: 'postcss-loader',
+                //     options: {
+                //         config: {
+                //             path: 'tasks/postcss.config.js'
+                //         }
+                //     }
+                // },
+                'sass-loader'
+            ]
         }, {
             test: /\.(js)$/,
             exclude: /(node_modules)/,
@@ -88,7 +109,15 @@ var devConf = {
         inline: true,
         host: host,
         port: port,
-        historyApiFallback: true
+        historyApiFallback: true,
+        proxy:{
+			//匹配代理url
+			'/ctg-workflow':{
+				//目标服务器地址
+				target:'http://132.122.232.91:8091',
+				changeOrigin: true,
+			}
+		}
     }
 };
 

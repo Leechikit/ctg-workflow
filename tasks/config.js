@@ -1,10 +1,12 @@
+var path = require('path');
 /*
  *  配置参数
  */
 exports.default = {
 	// 文件别名配置
 	alias: {
-		'vue$': 'vue/dist/vue.esm.js'
+		'vue$': 'vue/dist/vue.esm.js',
+		'@': path.resolve(__dirname, 'src')
 	},
 	// 全局引入模块配置
 	global: {

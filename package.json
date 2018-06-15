@@ -11,6 +11,8 @@
     "test": "mocha --recursive"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "iview": "^2.14.2",
     "vue": "^2.3.3"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "postcss-scss": "^1.0.2",
     "sass-loader": "^5.0.1",
     "string-replace-loader": "^2.1.1",
+    "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "vue-loader": "^12.1.0",
     "vue-router": "^2.6.0",

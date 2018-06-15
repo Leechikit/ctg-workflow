@@ -35,14 +35,14 @@ var prodConf = {
                         scss: ExtractTextPlugin.extract({
                             use: [
                                 'css-loader',
-                                {
-                                    loader: 'postcss-loader',
-                                    options: {
-                                        config: {
-                                            path: 'tasks/postcss.config.js'
-                                        }
-                                    }
-                                },
+                                // {
+                                //     loader: 'postcss-loader',
+                                //     options: {
+                                //         config: {
+                                //             path: 'tasks/postcss.config.js'
+                                //         }
+                                //     }
+                                // },
                                 'sass-loader'
                             ],
                             fallback: 'vue-style-loader'
@@ -66,6 +66,27 @@ var prodConf = {
                     outputPath: 'image/'
                 }
             }]
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        }, {
+            test: /\.scss$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                // {
+                //     loader: 'postcss-loader',
+                //     options: {
+                //         config: {
+                //             path: 'tasks/postcss.config.js'
+                //         }
+                //     }
+                // },
+                'sass-loader'
+            ]
         }, {
             test: /\.(js)$/,
             exclude: /(node_modules)/,

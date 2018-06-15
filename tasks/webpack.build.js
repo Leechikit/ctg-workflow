@@ -35,14 +35,14 @@ var buildConf = {
                         scss: ExtractTextPlugin.extract({
                             use: [
                                 'css-loader',
-                                {
-                                    loader: 'postcss-loader',
-                                    options: {
-                                        config: {
-                                            path: 'tasks/postcss.config.js'
-                                        }
-                                    }
-                                },
+                                // {
+                                //     loader: 'postcss-loader',
+                                //     options: {
+                                //         config: {
+                                //             path: 'tasks/postcss.config.js'
+                                //         }
+                                //     }
+                                // },
                                 'sass-loader'
                             ],
                             fallback: 'vue-style-loader'
@@ -60,6 +60,27 @@ var buildConf = {
                     name: 'image/[name].[ext]?[hash:8]'
                 }
             }]
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        }, {
+            test: /\.scss$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                // {
+                //     loader: 'postcss-loader',
+                //     options: {
+                //         config: {
+                //             path: 'tasks/postcss.config.js'
+                //         }
+                //     }
+                // },
+                'sass-loader'
+            ]
         }, {
             test: /\.(js)$/,
             exclude: /(node_modules)/,
