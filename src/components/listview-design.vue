@@ -34,7 +34,7 @@
                                     <div class="ColumnName" v-text="item.name"></div>
                                     <div class="ColumnGroup">
                                         <div class="ckbox ckbox-default">
-                                            <input type="checkbox" :id="item.id">
+                                            <input type="checkbox" :id="item.id" {{item.isVisible}}>
                                             <label :for="item.id"></label>
                                         </div>
                                     </div>
