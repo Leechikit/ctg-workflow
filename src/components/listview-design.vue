@@ -44,8 +44,8 @@
                                     <li class="myColumnItemChildName myshow" style="cursor: move;" :data-id="item.id">
                                         <div class="ColumnName">子表
                                             <div class="pull-right">
-                                                <input type="checkbox" :id="item.id" class="allcb" v-model="item.isVisible" @click="selectChildrenAllClick(item.id, item.isVisible)">
-                                                <label :for="item.id" style="width:100px;">全选</label>
+                                                <input type="checkbox" :id="item.id" class="allcb" v-model="item.isVisible">
+                                                <label :for="item.id" style="width:100px;" @click="selectChildrenAllClick(item.id, item.isVisible)">全选</label>
                                                 <i class="fa  fa-angle-down pugll-right" style="cursor:pointer;"></i>
                                             </div>
                                         </div>
@@ -272,6 +272,7 @@
           <div>
             <div class="item-title item-title-list">列表字段</div>
             <div id="DesignerView" class="DesignerView">
+              <Table border :columns="tableColumns"></Table>
             </div>
             <div id="TablePageIndex" class="table-page">
               <div class="page-index">
@@ -314,6 +315,7 @@ export default {
     };
   },
   computed:{
+    // 全选
     allSelected(){
       let result = true;
       for(let i = 0,len = this.listData.length;i<len;i++){
@@ -323,16 +325,55 @@ export default {
         }
       }
       return result;
+    },
+    // 表格表头
+    tableColumns(){
+      let tableArrs = [];
+      this.listData.forEach(item=>{
+        let obj = [];
+        if(item.isChildSchema){
+          let isEmpty = true;
+          for(let i = 0,len = item.children.length;i<len;i++){
+            if(item.children[i].isVisible){
+              isEmpty = false;
+              break;              
+            }
+          }
+          if(!isEmpty){
+            obj = {
+                title: item.name,
+                key: item.id,
+                align: 'center',
+                children: []
+            }
+            item.children.forEach(child=>{
+              if(child.isVisible){
+                obj.children.push({
+                    title: child.name,
+                    key: child.id,
+                    align: 'center'
+                });
+              }
+            });
+            tableArrs.push(obj);
+          }
+        }else if(item.isVisible){
+          obj = {
+              title: item.name,
+              key: item.id,
+              align: 'center'
+          }
+          tableArrs.push(obj);
+        }
+      });
+      return tableArrs;
     }
   },
   created(){
-      console.log(this.listData);
+      console.log(this.tableColumns);
   },
   methods: {
     togglePropertyContent() {},
-    checkBoxClick(){
-      console.log(this.listData);
-    },
     // 全选
     selectAllClick(isAllVisible){
       this.listData.forEach((item,index)=>{
