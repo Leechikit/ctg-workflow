@@ -57,7 +57,7 @@ export default {
             "id": "2",
             "type": 0,
             "isChildSchema": false,
-            "isVisible": true,
+            "isVisible": false,
             "canSort": false
         },{
             "name": "子表",
@@ -102,6 +102,35 @@ export default {
             "isChildSchema": false,
             "isVisible": true,
             "canSort": false
+        },{
+            "name": "子表2",
+            "id": "6",
+            "type": 0,
+            "isChildSchema": true,
+            "isVisible": true,
+            "canSort": false,
+            "children": [{
+                "name": "数字",
+                "id": "61",
+                "parentId": "6",
+                "type": 0,
+                "isVisible": true,
+                "canSort": true
+            },{
+                "name": "数字",
+                "id": "62",
+                "parentId": "6",
+                "type": 0,
+                "isVisible": true,
+                "canSort": true
+            },{
+                "name": "数字",
+                "id": "63",
+                "parentId": "6",
+                "type": 0,
+                "isVisible": true,
+                "canSort": true
+            }]
         }]
     }
 }

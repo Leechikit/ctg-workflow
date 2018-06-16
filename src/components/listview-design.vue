@@ -23,8 +23,8 @@
                     <div class="propertyTitle">
                         <div class="titletxt">列表字段</div>
                         <div class="titleControl">
-                            <input type="checkbox" id="ListShowAll">
-                            <label for="ListShowAll">全选</label>
+                            <input type="checkbox" id="ListShowAll" :checked="allSelected">
+                            <label for="ListShowAll" @click="selectAllClick(allSelected)">全选</label>
                         </div>
                     </div>
                     <div class="propertyContent">
@@ -34,7 +34,7 @@
                                     <div class="ColumnName" v-text="item.name"></div>
                                     <div class="ColumnGroup">
                                         <div class="ckbox ckbox-default">
-                                            <input type="checkbox" :id="item.id" :checked="item.isVisible">
+                                            <input type="checkbox" :id="item.id" v-model="item.isVisible">
                                             <label :for="item.id"></label>
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                     <li class="myColumnItemChildName myshow" style="cursor: move;" :data-id="item.id">
                                         <div class="ColumnName">子表
                                             <div class="pull-right">
-                                                <input type="checkbox" :id="item.id" class="allcb">
+                                                <input type="checkbox" :id="item.id" class="allcb" v-model="item.isVisible" @click="selectChildrenAllClick(item.id, item.isVisible)">
                                                 <label :for="item.id" style="width:100px;">全选</label>
                                                 <i class="fa  fa-angle-down pugll-right" style="cursor:pointer;"></i>
                                             </div>
@@ -54,8 +54,8 @@
                                         <div class="ColumnName" v-text="child.name"></div>
                                         <div class="ColumnGroup">
                                             <div class="ckbox ckbox-default">
-                                                <input type="checkbox" :id="child.id">
-                                                <label :for="child.id"></label>
+                                                <input type="checkbox" :id="child.id" v-model="child.isVisible">
+                                                <label :for="child.id" @click="childSchemaClick(child.parentId)"></label>
                                             </div>
                                         </div>
                                     </li>
@@ -313,11 +313,65 @@ export default {
       showModePropertyIndex: 0 //0 列表  1 日历  2 时间轴
     };
   },
+  computed:{
+    allSelected(){
+      let result = true;
+      for(let i = 0,len = this.listData.length;i<len;i++){
+        if(!this.listData[i].isVisible){
+          result = false;
+          break;
+        }
+      }
+      return result;
+    }
+  },
   created(){
       console.log(this.listData);
   },
   methods: {
-    togglePropertyContent() {}
+    togglePropertyContent() {},
+    checkBoxClick(){
+      console.log(this.listData);
+    },
+    // 全选
+    selectAllClick(isAllVisible){
+      this.listData.forEach((item,index)=>{
+        item.isVisible = !isAllVisible;
+        this.$set(this.listData, index, item);
+        if(item.isChildSchema){
+          this.selectChildrenAllClick(item.id,isAllVisible);
+        }
+      });
+    },
+    // 子表全选
+    selectChildrenAllClick(id,isAllVisible){
+      this.listData.forEach((item, index)=>{
+        if(item.isChildSchema && item.id == id){
+          item.children.forEach((child, childIndex)=>{
+            item.children[childIndex].isVisible = !isAllVisible;
+          });
+          this.$set(this.listData, index, item);
+        }
+      });
+    },
+    // 子表选项点击
+    childSchemaClick(parentId){
+      setTimeout(()=>{
+        this.listData.forEach((item, index)=>{
+          if(item.isChildSchema && item.id == parentId){
+            let result = true;
+            for(let i=0,len=item.children.length;i<len;i++){
+              if(!item.children[i].isVisible){
+                result = false;
+                break;
+              }
+            }
+            item.isVisible = result;          
+            this.$set(this.listData, index, item);
+          }
+        });
+      },0);
+    }
   }
 };
 </script>
