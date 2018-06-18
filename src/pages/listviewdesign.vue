@@ -67,21 +67,21 @@ export default {
             "isVisible": true,
             "canSort": false,
             "children": [{
-                "name": "数字",
+                "name": "数字1",
                 "id": "31",
                 "parentId": "3",
                 "type": 0,
                 "isVisible": true,
                 "canSort": true
             },{
-                "name": "数字",
+                "name": "数字2",
                 "id": "32",
                 "parentId": "3",
                 "type": 0,
                 "isVisible": true,
                 "canSort": true
             },{
-                "name": "数字",
+                "name": "数字3",
                 "id": "33",
                 "parentId": "3",
                 "type": 0,
@@ -110,21 +110,21 @@ export default {
             "isVisible": true,
             "canSort": false,
             "children": [{
-                "name": "数字",
+                "name": "数字2",
                 "id": "61",
                 "parentId": "6",
                 "type": 0,
                 "isVisible": true,
                 "canSort": true
             },{
-                "name": "数字",
+                "name": "数字2",
                 "id": "62",
                 "parentId": "6",
                 "type": 0,
                 "isVisible": true,
                 "canSort": true
             },{
-                "name": "数字",
+                "name": "数字3",
                 "id": "63",
                 "parentId": "6",
                 "type": 0,

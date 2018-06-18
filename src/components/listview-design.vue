@@ -29,7 +29,8 @@
                     </div>
                     <div class="propertyContent">
                         <ul id="ColumnList" class="ColumnList ui-sortable">
-                            <div v-for="item in listData">
+                          <draggable v-model="dragData">
+                            <div v-for="item in dragData">
                                 <li class="ColumnItem" v-if="!item.isChildSchema" :data-id="item.id" style="">
                                     <div class="ColumnName" v-text="item.name"></div>
                                     <div class="ColumnGroup">
@@ -50,17 +51,20 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="myColumnItem F0000016 ChildColumnItem" v-for="child in item.children" :data-id="child.id" :data-parentId="item.parentId">
-                                        <div class="ColumnName" v-text="child.name"></div>
-                                        <div class="ColumnGroup">
-                                            <div class="ckbox ckbox-default">
-                                                <input type="checkbox" :id="child.id" v-model="child.isVisible">
-                                                <label :for="child.id" @click="childSchemaClick(child.parentId)"></label>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <!--<draggable v-model="item.children">-->
+                                      <li class="myColumnItem F0000016 ChildColumnItem" v-for="child in item.children" :data-id="child.id" :data-parentId="item.parentId">
+                                          <div class="ColumnName" v-text="child.name"></div>
+                                          <div class="ColumnGroup">
+                                              <div class="ckbox ckbox-default">
+                                                  <input type="checkbox" :id="child.id" v-model="child.isVisible">
+                                                  <label :for="child.id" @click="childSchemaClick(child.parentId)"></label>
+                                              </div>
+                                          </div>
+                                      </li>
+                                    <!--</draggable>-->
                                 </div>
                             </div>
+                            </draggable>
                         </ul>
                     </div>
                 </div>
@@ -305,21 +309,35 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 export default {
+  components:{
+    draggable
+  },
   props: ["listData"],
   data() {
     return {
+      listDataMap: this.listData,
       showQueryContent: true,
       showColumnContent: true,
       showModePropertyIndex: 0 //0 列表  1 日历  2 时间轴
     };
   },
   computed:{
+    // 拖拽
+    dragData:{
+      get(){
+        return this.listDataMap;
+      },
+      set(val){
+        return this.listDataMap = val;
+      }
+    },
     // 全选
     allSelected(){
       let result = true;
-      for(let i = 0,len = this.listData.length;i<len;i++){
-        if(!this.listData[i].isVisible){
+      for(let i = 0,len = this.listDataMap.length;i<len;i++){
+        if(!this.listDataMap[i].isVisible){
           result = false;
           break;
         }
@@ -329,7 +347,7 @@ export default {
     // 表格表头
     tableColumns(){
       let tableArrs = [];
-      this.listData.forEach(item=>{
+      this.listDataMap.forEach(item=>{
         let obj = [];
         if(item.isChildSchema){
           let isEmpty = true;
@@ -376,9 +394,9 @@ export default {
     togglePropertyContent() {},
     // 全选
     selectAllClick(isAllVisible){
-      this.listData.forEach((item,index)=>{
+      this.listDataMap.forEach((item,index)=>{
         item.isVisible = !isAllVisible;
-        this.$set(this.listData, index, item);
+        this.$set(this.listDataMap, index, item);
         if(item.isChildSchema){
           this.selectChildrenAllClick(item.id,isAllVisible);
         }
@@ -386,19 +404,19 @@ export default {
     },
     // 子表全选
     selectChildrenAllClick(id,isAllVisible){
-      this.listData.forEach((item, index)=>{
+      this.listDataMap.forEach((item, index)=>{
         if(item.isChildSchema && item.id == id){
           item.children.forEach((child, childIndex)=>{
             item.children[childIndex].isVisible = !isAllVisible;
           });
-          this.$set(this.listData, index, item);
+          this.$set(this.listDataMap, index, item);
         }
       });
     },
     // 子表选项点击
     childSchemaClick(parentId){
       setTimeout(()=>{
-        this.listData.forEach((item, index)=>{
+        this.listDataMap.forEach((item, index)=>{
           if(item.isChildSchema && item.id == parentId){
             let result = true;
             for(let i=0,len=item.children.length;i<len;i++){
@@ -408,7 +426,7 @@ export default {
               }
             }
             item.isVisible = result;          
-            this.$set(this.listData, index, item);
+            this.$set(this.listDataMap, index, item);
           }
         });
       },0);
@@ -598,7 +616,7 @@ li.select-all-child {
                   padding-right: 0;
                   margin-bottom: 2px;
                   list-style: none;
-                  height: 30px;
+                  min-height: 30px;
                   line-height: 30px;
                   border: brown;
                   background-color: #fff;
