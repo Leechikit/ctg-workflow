@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <!--<draggable v-model="item.children">-->
+                                    <draggable v-model="item.children">
                                       <li class="myColumnItem F0000016 ChildColumnItem" v-for="child in item.children" :data-id="child.id" :data-parentId="item.parentId">
                                           <div class="ColumnName" v-text="child.name"></div>
                                           <div class="ColumnGroup">
@@ -61,7 +61,7 @@
                                               </div>
                                           </div>
                                       </li>
-                                    <!--</draggable>-->
+                                    </draggable>
                                 </div>
                             </div>
                             </draggable>
@@ -317,7 +317,7 @@ export default {
   props: ["listData"],
   data() {
     return {
-      listDataMap: this.listData,
+      listDataMap: this.listData, // 数据映射
       showQueryContent: true,
       showColumnContent: true,
       showModePropertyIndex: 0 //0 列表  1 日历  2 时间轴
