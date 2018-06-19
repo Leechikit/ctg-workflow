@@ -31,126 +31,134 @@
 </template>
 <script>
 export default {
-    props: ["listData"],
-    data(){
-        return {
-            listDataMap: this.listData, // 数据映射
-        }
-    },
-    computed:{
-        // 表格表头
-    tableColumns(){
-        let tableArrs = [];
-        this.listDataMap.forEach(item=>{
-            let obj = [];
-            if(item.isChildSchema){
-            let isEmpty = true;
-            for(let i = 0,len = item.children.length;i<len;i++){
-                if(item.children[i].isVisible){
-                isEmpty = false;
-                break;              
-                }
+  props: ["listData"],
+  data() {
+    return {
+      listDataMap: this.listData // 数据映射
+    };
+  },
+  computed: {
+    // 表格表头
+    tableColumns() {
+      let tableArrs = [];
+      this.listDataMap.forEach(item => {
+        let obj = [];
+        if (item.isChildSchema) {
+          let isEmpty = true;
+          for (let i = 0, len = item.children.length; i < len; i++) {
+            if (item.children[i].isVisible) {
+              isEmpty = false;
+              break;
             }
-            if(!isEmpty){
-                obj = {
-                    title: item.name,
-                    key: item.id,
-                    align: 'center',
-                    children: []
-                }
-                item.children.forEach(child=>{
-                if(child.isVisible){
-                    obj.children.push({
-                        title: child.name,
-                        key: child.id,
-                        align: 'center'
-                    });
-                }
-                });
-                tableArrs.push(obj);
-            }
-            }else if(item.isVisible){
+          }
+          if (!isEmpty) {
             obj = {
-                title: item.name,
-                key: item.id,
-                align: 'center'
-            }
+              title: item.name,
+              key: item.id,
+              align: "center",
+              sortable: item.canSort,
+              children: []
+            };
+            item.children.forEach(child => {
+              if (child.isVisible) {
+                obj.children.push({
+                  title: child.name,
+                  key: child.id,
+                  align: "center",
+                  sortable: item.canSort
+                });
+              }
+            });
             tableArrs.push(obj);
-            }
-        });
-        return tableArrs;
+          }
+        } else if (item.isVisible) {
+          obj = {
+            title: item.name,
+            key: item.id,
+            align: "center",
+            sortable: item.canSort
+          };
+          tableArrs.push(obj);
         }
+      });
+      return tableArrs;
+    },
+    // 表格数据
+    tableDatas(){
+        
     }
-}
+  }
+};
 </script>
-<style lang="scss" scoped>
-#listview{
-    height: 100%;
-    padding-top: 60px;
-    background-color: #fff;
-}
-.g-left{
+<style lang="scss">
+#listview {
+  height: 100%;
+  padding-top: 70px;
+  padding-right: 10px;
+  background-color: #fff;
+  .g-left {
     float: left;
     width: 240px;
     height: 100%;
-}
-.g-right{
+  }
+  .g-right {
     padding-left: 250px;
     height: 100%;
-}
-.sidebar{
-    &-item{
-        a{
-            display: block;
-            transition: all .2s ease-out 0s;
-            padding: 12px 15px;
-            padding-left: 26px;
-            margin: 0 1px 0 0;
-            position: relative;
-            border-left: 1px solid #fff;
-            &:hover{
-                background-color: #d4edfe !important;
-            }
-            .ivu-icon{
-                font-size: 24px;
-                margin-right: 10px;
-                color: #37abfd;
-            }
-            .text{
-                font-size: 14px;
-                vertical-align: text-bottom;
-                color: #495060;
-            }
+  }
+  .sidebar {
+    &-item {
+      a {
+        display: block;
+        transition: all 0.2s ease-out 0s;
+        padding: 12px 15px;
+        padding-left: 26px;
+        margin: 0 1px 0 0;
+        position: relative;
+        border-left: 1px solid #fff;
+        &:hover {
+          background-color: #d4edfe !important;
         }
-    }
-    .active{
-        a{
-            border-top: 0;
-            margin-right: 0;
-            background-color: #f9fafb;
-            color: #37abfd;
+        .ivu-icon {
+          font-size: 24px;
+          margin-right: 10px;
+          color: #37abfd;
         }
+        .text {
+          font-size: 14px;
+          vertical-align: text-bottom;
+          color: #495060;
+        }
+      }
     }
-}
-.listview-table{
-    .ivu-table{
+    .active {
+      a {
+        border-top: 0;
+        margin-right: 0;
+        background-color: #f9fafb;
+        color: #37abfd;
+      }
+    }
+  }
+  .listview-table {
+    .ivu-table {
       overflow-x: auto;
-      table{
+      table {
         table-layout: auto;
       }
     }
-    .ivu-table-header{
-      overflow: visible;      
-    }
-    .ivu-table-body{
+    .ivu-table-header {
       overflow: visible;
     }
-    .ivu-table-cell{
-      span{
+    .ivu-table-body {
+      overflow: visible;
+    }
+    .ivu-table-cell {
+      span {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
     }
   }
+}
 </style>
