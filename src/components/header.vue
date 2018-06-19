@@ -124,7 +124,9 @@ export default {
 
 <style scoped lang="scss">
 .header {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
   z-index: 2;
   display: flex;
   justify-content: space-between;

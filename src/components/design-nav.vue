@@ -22,14 +22,16 @@ export default {
 
 <style scoped lang="scss">
 .design-nav {
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 60px;
     z-index: 1;
   width: 100%;
   height: 37px;
   line-height: 56px;
   background-color: #f2f2f6;
   box-shadow: 0 2px 5px 0 rgba(99, 99, 99, 0.15);
-  margin: 2px auto;
+  padding: 2px 0;
   font-size: 14px;
   color: #fff;
   letter-spacing: 0;

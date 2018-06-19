@@ -42,8 +42,8 @@
                                 </li>
                                 <div class="ColumnItem myheight ischild ui-sortable" v-if="item.isChildSchema" :data-id="item.id"
                                     data-total="Object.keys(item.children).length" data-selected="4">
-                                    <li class="myColumnItemChildName myshow" style="cursor: move;" :data-id="item.id">
-                                        <div class="ColumnName">子表
+                                    <li class="myColumnItemChildName myshow" :data-id="item.id">
+                                        <div class="ColumnName" style="cursor: move;">子表
                                             <div class="pull-right">
                                                 <input type="checkbox" :id="item.id" class="allcb" v-model="item.isVisible">
                                                 <label :for="item.id" style="width:100px;" @click="selectChildrenAllClick(item.id, item.isVisible)">全选</label>
@@ -276,7 +276,7 @@
           <div>
             <div class="item-title item-title-list">列表字段</div>
             <div id="DesignerView" class="DesignerView">
-              <Table border :columns="tableColumns"></Table>
+              <Table border :columns="tableColumns" width="100%"></Table>
             </div>
             <div id="TablePageIndex" class="table-page">
               <div class="page-index">
@@ -436,6 +436,10 @@ export default {
 </script>
 
 <style lang="scss">
+#DesignerZone{
+  height: 100%;
+  padding-top: 97px;
+}
 hr {
   margin: 0;
 }
@@ -685,6 +689,28 @@ li.select-all-child {
     }
   }
 
+  #DesignerView{
+    .ivu-table{
+      overflow-x: auto;
+      table{
+        table-layout: auto;
+      }
+    }
+    .ivu-table-header{
+      overflow: visible;      
+    }
+    .ivu-table-body{
+      overflow: visible;
+    }
+    .ivu-table-cell{
+      span{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
   #DesignerQueryItems {
     background-color: #fff;
     overflow: hidden;
@@ -910,6 +936,7 @@ li.select-all-child {
     left: 3%;
     bottom: 100px;
     padding-right: 10px;
+    height: 100%;
     overflow-y: auto;
   }
 

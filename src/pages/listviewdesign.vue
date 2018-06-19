@@ -135,7 +135,6 @@ export default {
     }
 }
       if (data && data.Successful) {
-        document.title = "氚云-" + data.data.Title;
         this.viewData = data.data;
         // let listViewSetting = this.viewData.ListViewSetting;
         // let propertys = this.viewData.Propertys;
@@ -186,5 +185,11 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     border: 0;
     font-size: 14px;
     font-weight: 400;
+}
+#app{
+  position: relative;
+  left: 0;
+  top: 0;
+  height: 100%;
 }
 </style>
