@@ -2,7 +2,8 @@ const pannel = {
     namespaced: true,
     state: {
         pannel: {
-            isshow: false
+            isshow: false,
+            name: ''
         }
     },
     getters: {

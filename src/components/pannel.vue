@@ -3,17 +3,20 @@
         <div class="pannel-mask" @click="maskClick"></div>
         <div class="pannel-wrapper">
             <div class="pannel-header">
-                <div class="pannel-header-mark"></div>
+                <div class="pannel-header-mark" v-text="getPannel.name"></div>
             </div>
             <div class="pannel-content"></div>
         </div>
     </div>
 </template>
 <script>
-import {mapMutations} from 'vuex'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   data() {
     return {};
+  },
+  computed:{
+      ...mapGetters('pannel',['getPannel'])
   },
   methods:{
       ...mapMutations('pannel',['setPannel']),
@@ -57,7 +60,7 @@ export default {
         height: 50px;
         background-color: #F9FAFB;
         box-shadow: 0 1px 0 0 #E3E3E3;
-        margin-left: 20px;
+        padding-left: 20px;
         &-mark{
             line-height: 50px;
             overflow: hidden;

@@ -93,7 +93,7 @@ export default {
               return h("a", {
                   on:{
                       click(){
-                          that.showPanel(params.row.ObjectId);
+                          that.showPanel(params.row);
                       }
                   }
               },params.row.Name);
@@ -124,9 +124,10 @@ export default {
   },
   methods:{
       ...mapMutations('pannel',['setPannel']),
-      showPanel(objectId){
+      showPanel(obj){
           this.setPannel({
-              isshow:true
+              isshow:true,
+              name: obj.Name
           });
       }
   }
