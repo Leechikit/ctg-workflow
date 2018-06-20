@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './listviewdesign.vue'
 import iView from 'iview';
+import store from '../vuex/store';
 import 'iview/dist/styles/iview.css';
 import '../assets/iconfont/iconfont.css';
 import '../assets/iconfont/iconfont.js'
@@ -11,5 +12,6 @@ document.title = '流程列表'
 
 var app = new Vue({
   el: '#app',
+  store,
   render: h => h(App)
 })

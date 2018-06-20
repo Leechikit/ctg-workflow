@@ -24,22 +24,31 @@
         </div>
         <div class="g-right">
               <div class="listview-table">
-                  <Table border :columns="tableColumns" width="100%"></Table>
+                  <Table border :columns="tableColumns" :data="tableDatas" :stripe="true" no-data-text="--"></Table>
               </div>
         </div>
+        <pannel v-show="getPannel.isshow"></pannel>
     </div>
 </template>
 <script>
+import pannel from './pannel'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
-  props: ["listData"],
+    components:{
+        pannel
+    },
+  props: ["listData", "tableData"],
   data() {
     return {
+        isPannel: false,
       listDataMap: this.listData // 数据映射
     };
   },
   computed: {
+      ...mapGetters('pannel',['getPannel']),
     // 表格表头
     tableColumns() {
+        const that = this;
       let tableArrs = [];
       this.listDataMap.forEach(item => {
         let obj = [];
@@ -78,15 +87,48 @@ export default {
             align: "center",
             sortable: item.canSort
           };
+          // 数据标题点击
+          if (item.id == "Name") {
+            obj.render = (h, params) => {
+              return h("a", {
+                  on:{
+                      click(){
+                          that.showPanel(params.row.ObjectId);
+                      }
+                  }
+              },params.row.Name);
+            };
+          }
           tableArrs.push(obj);
         }
       });
       return tableArrs;
     },
     // 表格数据
-    tableDatas(){
-        
+    tableDatas() {
+      let tableArrs = [];
+      this.tableData.forEach(item => {
+        let obj = {};
+        for (let key in item) {
+          const arrs = key.split(".");
+          if (arrs.length > 1) {
+            obj[arrs[1]] = item[key];
+          } else {
+            obj[arrs[0]] = item[key];
+          }
+        }
+        tableArrs.push(obj);
+      });
+      return tableArrs;
     }
+  },
+  methods:{
+      ...mapMutations('pannel',['setPannel']),
+      showPanel(objectId){
+          this.setPannel({
+              isshow:true
+          });
+      }
   }
 };
 </script>
@@ -139,26 +181,26 @@ export default {
       }
     }
   }
-  .listview-table {
-    .ivu-table {
-      overflow-x: auto;
-      table {
-        table-layout: auto;
-      }
-    }
-    .ivu-table-header {
-      overflow: visible;
-    }
-    .ivu-table-body {
-      overflow: visible;
-    }
-    .ivu-table-cell {
-      span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-  }
+  //   .listview-table {
+  //     .ivu-table {
+  //       overflow-x: auto;
+  //       table {
+  //         table-layout: auto;
+  //       }
+  //     }
+  //     .ivu-table-header {
+  //       overflow: visible;
+  //     }
+  //     .ivu-table-body {
+  //       overflow: visible;
+  //     }
+  //     .ivu-table-cell {
+  //       span {
+  //         overflow: hidden;
+  //         text-overflow: ellipsis;
+  //         white-space: nowrap;
+  //       }
+  //     }
+  //   }
 }
 </style>
