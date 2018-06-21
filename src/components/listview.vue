@@ -74,7 +74,8 @@ export default {
                   title: child.name,
                   key: child.id,
                   align: "center",
-                  sortable: item.canSort
+                  sortable: item.canSort,
+                  minWidth: 100
                 });
               }
             });
@@ -85,7 +86,8 @@ export default {
             title: item.name,
             key: item.id,
             align: "center",
-            sortable: item.canSort
+            sortable: item.canSort,
+            minWidth: 100
           };
           // 数据标题点击
           if (item.id == "Name") {
